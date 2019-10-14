@@ -1,0 +1,211 @@
+/* Author: Debarun Mitra
+Technology used: HTML, CSS, JavaScript, JQuery, Bootstrap
+objective: Create a quiz application */
+.my-navbar
+{
+  max-width: 100%;
+  color:white;
+  border-radius: 0px;
+}
+.topnav
+{
+  overflow: hidden;
+  background: #374176;
+}
+.topnav #myLinks
+{
+  display: none;
+}
+#myLinks .links
+{
+  color: white;
+  background: #323D74;
+  padding: 14px 16px;
+  font-size: 16px;
+  display: block;
+  text-align: center;
+}
+.main-logo
+{
+  margin-top: 80%;
+}
+.name-logo
+{
+  margin-top: 20%;
+}
+.ins-head
+{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+.ins
+{
+  padding: 10px;
+  color: black;
+}
+.next-go
+{
+  border: none;
+  outline: none;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  color: black;
+  width: 80px;
+  height: 40px;
+  border-color:gray;
+  border-width: 3px;
+  border-radius: 23px;
+}
+.start-btn
+{
+  border: none;
+  color: white;
+  margin-top: 100%;
+  background: #13FBED;
+  border-radius: 43px;
+  align-content: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px;
+  width: 180px;
+  height: 80px;
+}
+.logo-icon
+{
+  height: 80px;
+}
+.user-name
+{
+  margin-left: 20%;
+  margin-top: 10px;
+  color: white;
+  padding: 12px 10px;
+  font-size: 20px;
+  display: block;
+  text-decoration: none;
+  font-family: serif;
+}
+.timer-count
+{
+  font-size: 30px;
+  margin-top: 18px;
+  margin-left: 22%;
+}
+.topnav a.icon{
+  background: #374176;
+  display: block;
+  color: white;
+  padding: 18px 18px;
+  position: absolute;
+  font-size: 30px;
+  right: 0;
+  top:0;
+}
+.topnav a.icon:hover
+{
+  background: #ddd;
+  color: black;
+}
+#myLinks a:hover
+{
+  background: #ddd;
+  color: black;
+}
+.qcount-quit
+{
+  margin-top: 3%;
+  padding-left:0%;
+}
+.question-number
+{
+    margin-left: 20%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+.quit-btn
+{
+  border: none;
+  margin-left: 40%;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  width: 80px;
+  height: 40px;
+  background: #C4C4C4;
+  border-radius: 23px;
+}
+.questions
+{
+  font-family: 'Roboto', sans-serif;
+  margin-top: 40px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.option
+{
+  border:none;
+  border-radius: 25px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  margin-left: 20px;
+  margin-top: 10px;
+  width: 200px;
+  height: 50px;
+}
+#optionBtn input:hover
+{
+  border: solid;
+  outline: 0 !important;
+  outline: none;
+  border-color: #374176;
+}
+#bottom-slider-btn
+{
+  margin-top: 3%;
+}
+#bottom-slider-btn .button
+{
+  border: none;
+  background-color: white;
+  border-radius: none;
+  font-size: 30px;
+  margin-left: 45%;
+  color:#374176;
+}
+.submit-btn
+{
+  margin-left: 40%;
+  border: solid;
+  outline: none;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  color: black;
+  width: 80px;
+  height: 40px;
+  border-color:green;
+  border-width: 3px;
+  border-radius: 23px;
+}
+.grade
+{
+  margin-top: 80px;
+  color: #00FFFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px;
+}
+.your-score
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+.score-point
+{
+  font-family: 'Roboto', sans-serif;
+  font-size: 80px;
+}
+.review-ans
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: gray;
+    cursor: pointer;
+}
