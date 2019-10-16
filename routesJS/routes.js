@@ -53,7 +53,7 @@ class Question
 }
 module.exports = (app, db) => {
   let noq=10;
-  //randon question answar set 
+  //randon question answar set
   app.get('/ranQue',(req,res)=>{
               let dbVal;
               db.find({"q_set":"per"},{projection:{"_id":0,"questions":1}},(err, result) => {
