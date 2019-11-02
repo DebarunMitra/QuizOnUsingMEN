@@ -2,7 +2,10 @@ const express=require('express');
 const mongodb=require('mongodb').MongoClient;
 const bodyParser=require('body-parser');
 const JSON = require('circular-json');
+const path=require('path');//to access public directory
 const cors=require('cors');
+
+const router = express.Router();
 
 const app=express();
 
@@ -20,16 +23,15 @@ app.use(bodyParser.json());//initializing bodyParser middleware
 
 const db=require('./config/db');
 
-const path=require('path');//to access public directory
-
 const port=5020;
 
 mongodb.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
     if (err)
-        return console.log(err);
+    return console.log(err);
     const database =db.db("quizOn").collection("questions");
     require('./routesJS/routes')(app, database);
     app.listen(port, () => {
+        console.log(`Server up on port no  ${port}`);
         console.log('Database Connected Successfully');
     });
 });
