@@ -21,15 +21,15 @@ Create a quiz application
 [QuizOn](https://debarunmitra.github.io/QuizApplication/)
 
 ## Images
-![StartImage](images/startPage.png) 
+![StartImage](images/startPage.PNG) 
 **********************************************************
-![selectTopic](images/selectTopic.png)
+![selectTopic](images/selectTopic.PNG)
 **********************************************************
-![instruction](images/instruction.png)
+![instruction](images/instruction.PNG)
 **********************************************************
-![questions](images/questions.png)
+![questions](images/questions.PNG)
 **********************************************************
-![score](images/score.png)
+![score](images/score.PNG)
 **********************************************************
-![reviewAns](images/reviewAns.png)
+![reviewAns](images/reviewAns.PNG)
 **********************************************************
