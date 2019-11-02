@@ -9,8 +9,9 @@ objective: Create a quiz application
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"-->
  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -22,7 +23,7 @@ objective: Create a quiz application
       <div class="topnav">
         <div class="d-flex justify-content-around">
           <img class="justify-content-sm-start logo-icon" src="images/image.png" ></img>
-          <p  class="justify-content-sm-center timer-count" href="#"><span id="timeCounter" style="font-family:normal;">00:00</span></p>
+          <p  class="justify-content-sm-center timer-count" href="#"><span id="timeCounter" style="display:none; font-family:normal;">00:00</span></p>
           <p class="justify-content-sm-end user-name" href="#"></p>
         </div>
         <div id="myLinks">
@@ -36,31 +37,76 @@ objective: Create a quiz application
           </div>
       </div>
     </nav>
-    <div id="instruction" class="container" style="display:block;">
+
+    <div id="selectTopic" class="container" style="display:block;">
       <div style="padding:30px;" class="row d-flex d-flex align-items-center flex-column">
         <table class="table">
-                               <td class="ins-head">Instructions</td>
-                           <tbody>
+              <td class="ins-head">Select Quiz Topic</td>
+        </table>
+      </div>
+      <div class="row cardRow">
+        <div class="card col-auto">
+            <i class="fa fa-users icon-size"></i>
+            <div class="card-body">
+              <h5 class="card-title">Personality</h5>
+              <p class="card-text">Quiz on famous personalities of India.</p>
+              <button id="personality" class="topic" type="button" name="button" value="per">Personality</button>
+            </div>
+          </div>
+
+          <div class="card col-auto">
+              <i class="fa fa-brain icon-size"></i>
+              <div class="card-body">
+                <h5 class="card-title">General Knowledge</h5>
+                <p class="card-text">Quiz on general Science of our surroundings.</p>
+                <button id="gs" class="topic" type="button" name="button" value="gs">General Science</button>
+              </div>
+            </div>
+
+            <div class="card col-auto">
+                <i class="fab fa-java icon-size"></i>
+                <div class="card-body">
+                  <h5 class="card-title">Java</h5>
+                  <p class="card-text">Java basic question set to enhance your basic understanding.</p>
+                  <!--button id="java" class="topic" type="button" name="button" value="">Java</button-->
+                </div>
+              </div>
+      </div>
+      <div class="row">
+  <div class="col"></div>
+  <div class="col-md-auto">
+    <button class="start-btn" type="button" name="button">Start Quiz</button>
+  </div>
+  <div class="col col-lg-4"></div>
+  </div>
+      </div>
+
+    <div id="instruction" class="container" style="display:none;">
+      <div style="padding:30px;" class="row d-flex d-flex align-items-center flex-column">
+        <table class="table">
+              <td class="ins-head">Instructions</td>
+                      <tbody>
                              <tr>
-                               <td><b>Points:</b>20</td>
-                               <td><b>Questions:</b>  10</td>
+                               <td><b>Points:</b>16</td>
+                               <td><b>Questions:</b>  8</td>
                                <td><b>Time Limit:</b>  30 Min</td>
                              </tr>
                              <tr>
-                               <td><b>Correct answer:</b>   +1</td>
-                              <td></td>
+                               <td><b>Correct answer:</b>   +2</td>
+                               <td></td>
                                <td><b>Wrong answer:</b>  0</td>
                              </tr>
                       </tbody></table>
       </div>
       <div style="padding:30px;" class="row d-flex d-flex align-items-center flex-column">
         <ul style="list-style-type:none;">
-          <li class="ins">1.Each question in the quiz is of multiple-choice format.</li>
+          <li class="ins">1. Each question in the quiz is of multiple-choice format.</li>
            <li class="ins">2. Click on the " > " button to go to the next question.</li>
-           <li class="ins">3.To start, click the "Next" button. </li>
-           <li class="ins">4.When finished, click the "Submit Quiz" button.</li>
-           <li class="ins">5. To quit the test, click the "Quit" button.   </li>
+           <li class="ins">3. To start, click the "Next" button. </li>
+           <li class="ins">4. When finished, click the "Submit Quiz" button.</li>
+           <li class="ins">5. To quit the test, click the "Quit" button. </li>
            <li class="ins">6. You can review your answers after completing  the test.</li>
+           <li class="ins">7. Attain all questions to get the review.</li>
       </ul>
       </div>
       <div class="row">
@@ -126,8 +172,13 @@ objective: Create a quiz application
         <div class="row justify-content-md-center">
             <div class="col col-lg-start"></div>
                 <div class="col-md-center">
-                    <a><p class="review-ans">Review Your Answers</p></a>
+                    <a><p class="review-ans">Open Review Answers</p></a>
                 </div>
+            <div class="col col-lg-end"></div>
+        </div>
+        <div id="reviewAns" class="row justify-content-md-center" style="display:none;">
+            <div class="col col-lg-start"></div>
+                <div id="reView" class="col-md-center"></div>
             <div class="col col-lg-end"></div>
         </div>
       </div>
@@ -151,7 +202,7 @@ objective: Create a quiz application
         </div>
         <!-- quit modal stop -->
         <!-- startPage Modal start -->
-        <div class="modal fade" id="startModal">
+        <div class="modal fade" id="startModal" data-keyboard="false" data-backdrop="static">
           <div class="modal-dialog">
             <div class="modal-content">
               <!-- Modal body -->
@@ -172,10 +223,14 @@ objective: Create a quiz application
                         </div>
                     <div class="col col-lg-end"></div>
                 </div>
+                <div class="col-md-auto">
+                  <!--button class="next-go" type="button" name="button">Next</button-->
+                  <!--div class=""><input id="" type="button" class="option" onclick="" name="Option" value="Personality"/></div-->
+                </div>
                 <div class="row justify-content-md-center">
                     <div class="col col-lg-start"></div>
                         <div class="col-md-center">
-                        <button class="start-btn" type="button" name="button">START</button>
+                        <button class="play-btn" type="button" name="button">PLAY</button>
                         </div>
                     <div class="col col-lg-end"></div>
                 </div>
