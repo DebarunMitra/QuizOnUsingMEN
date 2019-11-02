@@ -27,11 +27,11 @@ objective: Create a quiz application */
 }
 .main-logo
 {
-  margin-top: 80%;
+  margin-top: 20%;
 }
 .name-logo
 {
-  margin-top: 20%;
+  margin-top: 0%;
 }
 .ins-head
 {
@@ -43,6 +43,8 @@ objective: Create a quiz application */
 {
   padding: 10px;
   color: black;
+}
+#startModal{
 }
 .next-go
 {
@@ -57,7 +59,42 @@ objective: Create a quiz application */
   border-width: 3px;
   border-radius: 23px;
 }
-.start-btn
+.start-btn{
+  border: none;
+  background:#323D74;
+  outline: none;
+  font-weight:normal;
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  color: white;
+  width: 30vw;
+  height: 40px;
+  border-color:#323D74;
+  border-width: 3px;
+  border-radius: 23px;
+}
+.topic{
+    border: none;
+    font-weight:normal;
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    width: 20vw;
+    height: 40px;
+    outline: none !important;
+    border-color:gray;
+    border-width: 3px;
+    border-radius: 23px;
+}
+.card{
+  width: 30%;
+  text-align: center;
+  margin: 10px;
+}
+.icon-size{
+  padding: 10px;
+  font-size: 10vw;
+}
+.play-btn
 {
   border: none;
   color: white;
@@ -68,11 +105,11 @@ objective: Create a quiz application */
   font-family: 'Roboto', sans-serif;
   font-size: 40px;
   width: 180px;
-  height: 80px;
+  height: 60px;
 }
 .logo-icon
 {
-  height: 80px;
+  height:80px;
 }
 .user-name
 {
