@@ -59,34 +59,63 @@ $.fn.clickedOption=function(id, que, qset,qid) {
         $('#'+id).css('outline' , "none");;
         $('#'+id).css('border-color' ,"#374176");
         localStorage.setItem("ans",JSON.stringify(userAns));
-        console.log(userAns);
       }
     }
   };
 $(document).ready(function() {
-  let qcount = 10,op = 4,count = 0,nextPrev = 1,ansRet;
+  let qcount = 8,op = 4,count = 0,nextPrev = 1,ansRet,topic='';
   let opArr=['a','b','c','d'];
   let gradeMsg = ["Improve!!", "GOOD", "GREAT!!"];
   let checkRepeat = new Array();
   let qo=new QuizOn();
   checkRepeat = [];
-  $('.total-que').html(qcount);
-  $("#optionBtn").empty();
-  $('.questions').html(' ');
-  $('#startModal').modal('show');
+  $('.topic').click(function(){
+    let id=$(this).attr('id');
+    let value=$('#'+id).attr('value');
+    $(this).css('background','green');
+    $(this).css('color','white');
+    $('.topic').hide();
+    $('#'+id).show();
+    topic=value;
+  });
+  /*initial load start*/
+  let initialLoad=function(){
+    $('.total-que').html(qcount);
+    $("#optionBtn").empty();
+    $('.questions').html(' ');
+    $('#startModal').modal('show');
+  };
+  initialLoad();
+  /*initial load end*/
   /*question load  start*/
-  $('.start-btn').click(function() {
-      $.ajax({
-           url:'http://localhost:5020/ranQue/'
-         }).done(function(data) {
-             $('#startModal').modal('hide');
-             $('#instruction').css("display", "block");
-             localStorage.setItem('qSet',data);
-             qo.startTimer();
-         });
-         getQuestions(1);
+  $('.play-btn').click(function() {
+      $('#startModal').modal('hide');
     });
 /*question load  end*/
+
+/*start play*/
+$('.start-btn').click(function() {
+    if(topic!==''){
+      let topicData={"topic":topic};
+        $.ajax({
+             url:'http://localhost:5020/ranQue/',
+             data:JSON.stringify(topicData),
+             type:'POST',
+             dataType : "json",
+             contentType: "application/json"
+           }).done(function(data) {
+               localStorage.setItem('qSet',JSON.stringify(data));
+               $('#selectTopic').css("display", "none");
+               $('#instruction,#timeCounter').css("display", "block");
+               qo.startTimer();
+           });
+           getQuestions(1);
+    }
+    else{
+      alert('Select quiz Topic');
+    }
+  });
+/*start play*/
 /*question-option show start*/
 let getQuestions = function(qc) {
     $("#optionBtn").empty();
@@ -167,7 +196,11 @@ let getQuestions = function(qc) {
     data:ans,
     url:'http://localhost:5020/checkAns'
   }).done((data)=>{
-   point=parseInt(data);
+   //pointWithAns=JSON.parse(data);
+  // console.log(data.quizAnswars);
+   //console.log(data.quizPoint);
+   point=parseInt(data.quizPoint);
+   localStorage.setItem('quizAnswars',JSON.stringify(data.quizAnswars));
      if (point < 5) {
        $('.grade').html(gradeMsg[0]);
      } else if (point == 5) {
@@ -192,6 +225,23 @@ let getQuestions = function(qc) {
   });
   /*quit stop*/
   $('.review-ans').click(function() {
-    location.reload();
+    if($('#reviewAns').css('display') === 'none'){
+     $('#reviewAns').css('display','block');
+     $('.review-ans').html('Close Review Answers');
+     let quizQuestions=JSON.parse(localStorage.getItem("qSet"));
+     let userAns=JSON.parse(localStorage.getItem("ans"));
+     let quizAns=JSON.parse(localStorage.getItem("quizAnswars"));
+     for(let i=0;i<qcount;i++){
+       let review='<div class="row d-flex d-flex align-items-center flex-column">'+
+         '<p id="quizQue" class="questions">'+(i+1)+') '+quizQuestions[i].q+'</p>'+
+       '<div class="">Your Answer: <input id="" type="button" class="option" name="Option" value="'+userAns[i].ans+'"/></div>'+
+       '<div class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Answer: <input id="" type="button" class="option" name="Option" value="'+quizAns[i].ans+'"/></div></div>';
+       $('#reView').append(review).last();
+     }
+  } else {
+    $('#reviewAns').css('display','none');
+    $('.review-ans').html('Open Review Answers');
+  }
+  //  location.reload();
   });
 });
