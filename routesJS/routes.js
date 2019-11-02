@@ -1,3 +1,4 @@
+const path=require('path');//to access public directory
 class Question
 {
   constructor(count){
@@ -5,6 +6,8 @@ class Question
     this.qno=[];
     this.questions=[];
     this.point=0;
+    this.ansSet=[];
+    this.ansWithPoint=[];
   }
   randomQueSet(qsetId,question,length){
     let no=Math.floor(Math.random() * (length-1));
@@ -32,19 +35,22 @@ class Question
     else{
       if(uans[ual]!==null){
         let uaQid=uans[ual].qid,uaAns=uans[ual].ans;
-        this.point=question.filter(item => item.qid===uaQid).map((qset)=>{
+        this.ansWithPoint=question.filter(item => item.qid===uaQid).map((qset)=>{
          if(qset.ans===uaAns){
-              this.point+=1;ual-=1;
+              this.ansSet[ual]={qid:qset.qid,ans:qset.ans};
+              this.point+=2;ual-=1;
               return this.checkAns(qsetId,question,length,uans,ual);
          }
          else{
-             ual-=1;
+              this.ansSet[ual]={qid:qset.qid,ans:qset.ans};
+              ual-=1;
              return this.checkAns(qsetId,question,length,uans,ual);
            }
         });
-        return this.point;
+      return {quizAnswars:this.ansSet,quizPoint:this.point};
       }
       else {
+        this.ansSet[ual]={qid:qsetId,ans:'Not Attained'};
         ual-=1;
         return this.checkAns(qsetId,question,length,uans,ual);
       }
@@ -52,18 +58,20 @@ class Question
   }
 }
 module.exports = (app, db) => {
-  let noq=10;
+  var noq=8,topic;
   //randon question answar set
-  app.get('/ranQue',(req,res)=>{
+  app.post('/ranQue',(req,res)=>{
               let dbVal;
-              db.find({"q_set":"per"},{projection:{"_id":0,"questions":1}},(err, result) => {
+              topic=req.body.topic;
+              db.find({"q_set":topic},{projection:{"_id":0,"questions":1}},(err, result) => {
                    (err===true)?console.log(err + " this error has occured"):(dbVal=result.toArray());
               });
               dbVal.then(que=>{
               let question=que[0].questions;
               const qno=new Question(noq);
               let len=que[0].questions.length,no=0;
-              let getQandO=qno.randomQueSet('per',question,len);
+              let getQandO=qno.randomQueSet(topic,question,len);
+              //console.log(JSON.stringify(getQandO));
               res.send(JSON.stringify(getQandO));
             });
           });
@@ -71,17 +79,19 @@ module.exports = (app, db) => {
   //check answer
   app.post('/checkAns',(req,res)=>{
     let reqData=req.body;
+    topic=reqData[0].q_set;
     if(reqData){
       let userAns;
-      db.find({"q_set":"per"},{projection:{"_id":0,"questions":1}},(err, result) => {
+      db.find({"q_set":topic},{projection:{"_id":0,"questions":1}},(err, result) => {
            (err===true)?console.log(err + " this error has occured"):(userAns=result.toArray());
       });
         userAns.then(que=>{
         let question=que[0].questions;
         const qno=new Question(noq);
         let len=que[0].questions.length,no=0;
-        let point=qno.checkAns('per',question,len,reqData,reqData.length-1);
-       res.send(String(point));
+        let pointAns=qno.checkAns(topic,question,len,reqData,reqData.length-1);
+        //console.log(pointAns);
+        res.send(JSON.stringify(pointAns));
       });
     }
   });
