@@ -1,9 +1,14 @@
 const express=require('express');
-const mongodb=require('mongodb').MongoClient;
+//const mongodb=require('mongodb').MongoClient;
+const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const JSON = require('circular-json');
 const path=require('path');//to access public directory
 const cors=require('cors');
+
+// Load User Model
+require('./models/Questions');
+require('./models/User');
 
 const router = express.Router();
 
@@ -25,11 +30,10 @@ const db=require('./config/db');
 
 const port=process.env.PORT || 5020;
 
-mongodb.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+mongoose.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
     if (err)
     return console.log(err);
-    const database =db.db("quizOn").collection("questions");
-    require('./routesJS/routes')(app, database);
+    require('./routesJS/routes')(app);
     app.listen(port, () => {
         console.log(`Server up on port no  ${port}`);
         console.log('Database Connected Successfully');
