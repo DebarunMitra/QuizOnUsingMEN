@@ -60,6 +60,7 @@ objective: Create a quiz application */
   border-radius: 23px;
 }
 .start-btn{
+  margin-left: 30%;
   border: none;
   background:#323D74;
   outline: none;
@@ -73,12 +74,14 @@ objective: Create a quiz application */
   border-width: 3px;
   border-radius: 23px;
 }
+.cardRow{
+}
 .topic{
     border: none;
     font-weight:normal;
     font-family: 'Roboto', sans-serif;
     color: black;
-    width: 20vw;
+    width: 80%;
     height: 40px;
     outline: none !important;
     border-color:gray;
@@ -86,7 +89,7 @@ objective: Create a quiz application */
     border-radius: 23px;
 }
 .card{
-  width: 30%;
+  width: 350px;
   text-align: center;
   margin: 10px;
 }
@@ -98,7 +101,7 @@ objective: Create a quiz application */
 {
   border: none;
   color: white;
-  margin-top: 30%;
+  margin-top: 0%;
   background: #13FBED;
   border-radius: 43px;
   align-content: center;
