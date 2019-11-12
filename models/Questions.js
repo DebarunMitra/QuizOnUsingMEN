@@ -1,0 +1,43 @@
+const mongoose=require('mongoose');
+const QuestionSchema=new mongoose.Schema({
+  q_set:{
+    type:String,
+    required:true
+  },
+  type:{
+    type:String,
+    required:true
+  },
+  questions:[{
+    1:{
+      type:String,
+      required:true
+    },
+    2:{
+      type:String,
+      required:true
+    },
+    3:{
+      type:String,
+      required:true
+    },
+    4:{
+      type:String,
+      required:true
+    },
+    qid:{
+      type:Number,
+      required:true
+    },
+    question:{
+      type:String,
+      required:true
+    },
+    ans:{
+      type:String,
+      required:true
+    }
+  }]
+});
+const Questions=mongoose.model('questions',QuestionSchema);
+module.exports=Questions;

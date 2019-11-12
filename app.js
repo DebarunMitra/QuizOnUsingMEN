@@ -28,11 +28,39 @@ app.use(bodyParser.json());//initializing bodyParser middleware
 
 const db=require('./config/db');
 
+
+
 const port=process.env.PORT || 5020;
+
+// mongodb.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+//     if (err)
+//     return console.log(err);
+//     const database =db.db("quizOn").collection("questions");
+//     require('./routesJS/routes')(app, database);
+//     app.listen(port, () => {
+//         console.log(`Server up on port no  ${port}`);
+//         console.log('Database Connected Successfully');
+//     });
+// });
+// mongoose.connect(db, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+//   })
+//   .then(() => console.log('MongoDB Connected'))
+//   .catch(err => console.log(err));
+//
+//
+//   app.listen(port, () => {
+//     console.log(`Server started on port ${port}`)
+//   });
+
+// Use Routes
+//app.use('/', routes);
 
 mongoose.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
     if (err)
     return console.log(err);
+    //const database =db.collection("questions");
     require('./routesJS/routes')(app);
     app.listen(port, () => {
         console.log(`Server up on port no  ${port}`);
