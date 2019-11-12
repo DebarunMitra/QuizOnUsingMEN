@@ -101,7 +101,7 @@ $(document).ready(function() {
             type: 'POST',
             data: JSON.stringify(userData),
             contentType:'application/json',
-            url: 'https://quizonapp.herokuapp.com/login'
+            url: 'http://localhost:5020/login'
           }).done((data) => {
             if(data){
             //  console.log(data.token.split(' ')[1]);
@@ -132,7 +132,7 @@ $(document).ready(function() {
             type: 'POST',
             data: JSON.stringify(userData),
             contentType:'application/json',
-            url: 'https://quizonapp.herokuapp.com/registration'
+            url: 'http://localhost:5020/registration'
           }).done((data) => {
             if(data){
             //  console.log(data.token.split(' ')[1]);
@@ -141,7 +141,7 @@ $(document).ready(function() {
             }
           }).fail((xhr, textStatus, errorThrown) => {
             let msg=JSON.parse(xhr.responseText);
-            $('#responseMsgReg').html(msg.error);
+            $('#responseMsgReg').html(msg.exist);
             $('#responseMsgReg').css('display','block');
             // console.log("ERROR: ", xhr.responseText)
             // return xhr.responseText;
@@ -195,7 +195,7 @@ $(document).ready(function() {
         "topic": topic
       };
       $.ajax({
-        url: 'https://quizonapp.herokuapp.com/ranQue/',
+        url: 'http://localhost:5020/ranQue/',
         data: JSON.stringify(topicData),
         type: 'POST',
         dataType: "json",
@@ -299,7 +299,7 @@ $(document).ready(function() {
     //   "Content-Type":"application/x-www-form-urlencoded",
        token:localStorage.getItem("authToken")
      },
-      url: 'https://quizonapp.herokuapp.com/checkAns'
+      url: 'http://localhost:5020/checkAns'
     }).done((data) => {
       point = parseInt(data.quizPoint);
       localStorage.setItem('quizAnswars', JSON.stringify(data.quizAnswars));
