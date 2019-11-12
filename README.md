@@ -18,15 +18,15 @@ Create a quiz application
 5. At last,you can review your answers.
 
 ## Images
-![StartImage](images/startPage.PNG)
+![StartImage](images/startPage.png)
 **********************************************************
-![selectTopic](images/selectTopic.PNG)
+![selectTopic](images/selectTopic.png)
 **********************************************************
-![instruction](images/instruction.PNG)
+![instruction](images/instruction.png)
 **********************************************************
-![questions](images/questions.PNG)
+![questions](images/questions.png)
 **********************************************************
-![score](images/score.PNG)
+![score](images/score.png)
 **********************************************************
-![reviewAns](images/reviewAns.PNG)
+![reviewAns](images/reviewAns.png)
 **********************************************************
