@@ -23,7 +23,7 @@ app.use(bodyParser.json());//initializing bodyParser middleware
 
 const db=require('./config/db');
 
-const port=5020;
+const port=process.env.PORT || 5020;
 
 mongodb.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
     if (err)

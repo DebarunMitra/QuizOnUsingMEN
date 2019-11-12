@@ -2,12 +2,12 @@
   "name": "quizonapp",
   "version": "1.0.0",
   "engines": {
-      "node": "12.13.0" 
+      "node": "12.13.0"
    },
   "description": "\"QuizOn application using nodeJS,expressJS,MongoDB\",",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "livereload": "livereload"
   },
   "author": "",
