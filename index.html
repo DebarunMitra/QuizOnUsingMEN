@@ -44,17 +44,19 @@ objective: Create a quiz application
               <td class="ins-head">Select Quiz Topic</td>
         </table>
       </div>
-      <div class="row cardRow">
-        <div class="card col-auto">
-            <i class="fa fa-users icon-size"></i>
-            <div class="card-body">
-              <h5 class="card-title">Personality</h5>
-              <p class="card-text">Quiz on famous personalities of India.</p>
-              <button id="personality" class="topic" type="button" name="button" value="per">Personality</button>
+      <div class="row">
+        <div class="col-sm4">
+          <div class="card">
+              <i class="fa fa-users icon-size"></i>
+              <div class="card-body">
+                <h5 class="card-title">Personality</h5>
+                <p class="card-text">Quiz on famous personalities of India.</p>
+                <button id="personality" class="topic" type="button" name="button" value="per">Personality</button>
+              </div>
             </div>
-          </div>
-
-          <div class="card col-auto">
+        </div>
+        <div class="col-sm4">
+          <div class="card">
               <i class="fa fa-brain icon-size"></i>
               <div class="card-body">
                 <h5 class="card-title">General Knowledge</h5>
@@ -62,23 +64,19 @@ objective: Create a quiz application
                 <button id="gs" class="topic" type="button" name="button" value="gs">General Science</button>
               </div>
             </div>
-
-            <div class="card col-auto">
-                <i class="fab fa-java icon-size"></i>
-                <div class="card-body">
-                  <h5 class="card-title">Java</h5>
-                  <p class="card-text">Java basic question set to enhance your basic understanding.</p>
-                  <button id="java" class="topic" type="button" name="button" value="">Java</button>
-                </div>
+        </div>
+        <div class="col-sm4">
+          <div class="card">
+              <i class="fab fa-java icon-size"></i>
+              <div class="card-body">
+                <h5 class="card-title">Java</h5>
+                <p class="card-text">Java basic question set to enhance your basic understanding.</p>
+                <button id="java" class="topic" type="button" name="button" value="">Java</button>
               </div>
+            </div>
+        </div>
       </div>
-      <div class="row">
-  <div class="col"></div>
-  <div class="col-md-auto">
-    <button class="start-btn" type="button" name="button">Start Quiz</button>
-  </div>
-  <div class="col col-lg-4"></div>
-  </div>
+            <button class="start-btn" type="button" name="button">Start Quiz</button>
       </div>
 
     <div id="instruction" class="container" style="display:none;">
