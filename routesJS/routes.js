@@ -1,97 +1,149 @@
-const path=require('path');//to access public directory
-class Question
-{
-  constructor(count){
-    this.count=count;
-    this.qno=[];
-    this.questions=[];
-    this.point=0;
-    this.ansSet=[];
-    this.ansWithPoint=[];
-  }
-  randomQueSet(qsetId,question,length){
-    let no=Math.floor(Math.random() * (length-1));
-    if(!this.qno.includes(no) && no>0)
-    {
-      this.qno.push(no);
-        let q=question.filter(item => item.qid===no).map((qset) => {
-        this.questions[this.count-1]={"q":qset.question,"a":qset[1],"b":qset[2],"c":qset[3],"d":qset[4],"qset":qsetId,"qid":qset.qid};
-      });
-        this.count-=1;
-        if(this.count===0){
-          return this.questions;
-        }
-        if(this.count>0){
-           return this.randomQueSet(qsetId,question,length);
-         }
-    }else {
-        return this.randomQueSet(qsetId,question,length);
-    }
-  }
-  checkAns(qsetId,question,length,uans,ual){
-    if(ual===-1){
-     return this.point;
-    }
-    else{
-      if(uans[ual]!==null){
-        let uaQid=uans[ual].qid,uaAns=uans[ual].ans;
-        this.ansWithPoint=question.filter(item => item.qid===uaQid).map((qset)=>{
-         if(qset.ans===uaAns){
-              this.ansSet[ual]={qid:qset.qid,ans:qset.ans};
-              this.point+=2;ual-=1;
-              return this.checkAns(qsetId,question,length,uans,ual);
-         }
-         else{
-              this.ansSet[ual]={qid:qset.qid,ans:qset.ans};
-              ual-=1;
-             return this.checkAns(qsetId,question,length,uans,ual);
-           }
-        });
-      return {quizAnswars:this.ansSet,quizPoint:this.point};
-      }
-      else {
-        this.ansSet[ual]={qid:qsetId,ans:'Not Attained'};
-        ual-=1;
-        return this.checkAns(qsetId,question,length,uans,ual);
-      }
-    }
-  }
-}
+const path = require('path'); //to access public directory
+const bcrypt = require('bcrypt');
+const jsonwt = require('jsonwebtoken');
+const passport = require('passport');
+const key = require('../config/key').secret;
+const mongoose = require('mongoose');
+const Questions = mongoose.model('questions');
+const Users = mongoose.model('user');
+const Question = require('./Question');
+const auth = require('../middleware/auth');
 module.exports = (app, db) => {
-  var noq=8,topic;
-  //randon question answar set
-  app.post('/ranQue',(req,res)=>{
-              let dbVal;
-              topic=req.body.topic;
-              db.find({"q_set":topic},{projection:{"_id":0,"questions":1}},(err, result) => {
-                   (err===true)?console.log(err + " this error has occured"):(dbVal=result.toArray());
-              });
-              dbVal.then(que=>{
-              let question=que[0].questions;
-              const qno=new Question(noq);
-              let len=que[0].questions.length,no=0;
-              let getQandO=qno.randomQueSet(topic,question,len);
-              //console.log(JSON.stringify(getQandO));
-              res.send(JSON.stringify(getQandO));
-            });
+  var noq = 8,
+    topic;
+
+  //registration api start
+  app.post('/registration', (req, res) => {
+    console.log(req.body);
+    Users.findOne({
+      email: req.body.email
+    }).then(user => {
+      if (user) {
+        return res.status(400).json({
+          exist: 'User with the same username already exists'
+        });
+      } else {
+        const newUser = new Users({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err)
+              throw err;
+            newUser.password = hash;
+            newUser.save().then(user => {
+                if (user) {
+                  const savedDetails = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email
+                  }
+                  jsonwt.sign(savedDetails, key, {
+                    expiresIn: 15000
+                  }, (err, token) => {
+                    if (err) throw err;
+                    res.json({
+                      success: true,
+                      token: "Bearer " + token
+                    });
+                  })
+                }
+              })
+              .catch(err => console.log("Error occure while storing user after hashing password " + err));
+          })
+        });
+      }
+    }).catch(err => console.log("Error occured while checking email for availability " + err));
+  });
+
+
+  //login api start
+  app.post('/login', (req, res) => {
+    Users.findOne({
+        email: req.body.email
+      })
+      .then(user => {
+        if (!user)
+          return res.status(404).send({
+            error:'User Not Exists! Please Sign Up...'
           });
+        bcrypt.compare(req.body.password, user.password).then(correct => {
+          if (correct) {
+            const payload = {
+              id: user.id,
+              username: user.username,
+              email: user.email
+            }
+            jsonwt.sign(payload, key, {
+              expiresIn: 10800
+            }, (err, token) => {
+              if (err) throw err;
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            })
+          } else {
+            res.status(401).json({
+              failed: 'Invalid user credentials'
+            });
+          }
+        }).catch(err => console.log("error generating token " + err));
+      });
+  });
+
+  //randon question answar set
+  app.post('/ranQue',auth,(req, res) => {
+  //  console.log(req.body);
+//    console.log(req.headers);
+    var dbVal;
+    topic = req.body.topic;
+    Questions.find({
+      "q_set": topic
+    }, {
+      "_id": 0,
+      "questions": 1
+    }, (err, result) => {
+      if (err === true)
+        console.log(err + " this error has occured");
+      else {
+        let question = result[0].questions;
+        const qno = new Question(noq);
+        let len = result[0].questions.length;
+        let getQandO = qno.randomQueSet(topic, question, len);
+        //console.log(JSON.stringify(getQandO));
+        res.send(JSON.stringify(getQandO));
+      }
+    }).catch(err => console.log('Random Question Finding Error !!' + err));
+  });
 
   //check answer
-  app.post('/checkAns',(req,res)=>{
-    let reqData=req.body;
-    topic=reqData[0].q_set;
-    if(reqData){
+  app.post('/checkAns',auth,(req, res) => {
+     console.log(req.body);
+     console.log(req.headers);
+    let reqData = req.body;
+    topic = reqData[0].q_set;
+    if (reqData) {
       let userAns;
-      db.find({"q_set":topic},{projection:{"_id":0,"questions":1}},(err, result) => {
-           (err===true)?console.log(err + " this error has occured"):(userAns=result.toArray());
-      });
-        userAns.then(que=>{
-        let question=que[0].questions;
-        const qno=new Question(noq);
-        let len=que[0].questions.length,no=0;
-        let pointAns=qno.checkAns(topic,question,len,reqData,reqData.length-1);
-        //console.log(pointAns);
-        res.send(JSON.stringify(pointAns));
+      Questions.find({
+        "q_set": topic
+      }, {
+        "_id": 0,
+        "questions": 1
+      }, (err, result) => {
+        if (err === true)
+          console.log(err + " this error has occured");
+        else {
+          let question = result[0].questions;
+          const qno = new Question(noq);
+          let len = result[0].questions.length;
+          let pointAns = qno.checkAns(topic, question, len, reqData, reqData.length - 1);
+          //console.log(pointAns);
+          res.send(JSON.stringify(pointAns));
+        }
       });
     }
   });
